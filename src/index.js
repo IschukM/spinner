@@ -129,31 +129,8 @@ const refs = {
   loadMoreBtn: document.querySelector('btn-primary'),
   spinner: document.querySelector('.js-spinner'),
 };
-
-import { Spinner } from 'spin.js';
-
-const opts = {
-  lines: 13, // The number of lines to draw
-  length: 38, // The length of each line
-  width: 17, // The line thickness
-  radius: 45, // The radius of the inner circle
-  scale: 1, // Scales overall size of the spinner
-  corners: 1, // Corner roundness (0..1)
-  speed: 1, // Rounds per second
-  rotate: 0, // The rotation offset
-  animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
-  direction: 1, // 1: clockwise, -1: counterclockwise
-  color: '#3d314a', // CSS color or array of colors
-  fadeColor: 'transparent', // CSS color or array of colors
-  top: '50%', // Top position relative to parent
-  left: '50%', // Left position relative to parent
-  shadow: '0 0 1px transparent', // Box-shadow for the lines
-  zIndex: 2000000000, // The z-index (defaults to 2e9)
-  className: 'spinner', // The CSS class to assign to the spinner
-  position: 'absolute', // Element positioning
-};
-
-const spinner = new Spinner(opts).spin(refs.spinner);
+import { spinerPlay, spinerStop } from './js/spinner';
+import { refs } from './js/refs';
 
 const handleSubmit = event => {
   event.preventDefault();
@@ -167,11 +144,20 @@ const handleSubmit = event => {
     return;
   }
   unsplash.query = inputValue;
-  unsplash.getPhotos().then(({ results }) => {
-    const markup = createMarkup(results);
-    console.log(markup);
-    refs.list.insertAdjacentHTML('beforeend', markup);
-  });
+  spinerPlay();
+  unsplash
+    .getPhotos()
+    .then(({ results }) => {
+      const markup = createMarkup(results);
+      console.log(markup);
+      refs.list.insertAdjacentHTML('beforeend', markup);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      spinerStop();
+    });
 };
 // HslRljVAXx39xscZAgKySpNimL5ReEsXBSo8WuJOyvk
 refs.form.addEventListener('submit', handleSubmit);
