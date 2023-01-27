@@ -123,12 +123,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 //   refs.gallery.insertAdjacentHTML('beforeend', gallery);
 //   galleryLigthbox.refresh();
 // }
-const refs = {
-  form: document.querySelector('.search-form'),
-  list: document.querySelector('.gallery'),
-  loadMoreBtn: document.querySelector('btn-primary'),
-  spinner: document.querySelector('.js-spinner'),
-};
+
 import { spinerPlay, spinerStop } from './js/spinner';
 import { refs } from './js/refs';
 
